@@ -158,7 +158,6 @@
 import Navbar from '../../components/customer/Navbar'
 import Aside from '../../components/customer/Aside'
 import Footer from '../../components/customer/Footer'
-import $ from 'jquery'
 export default {
   components: {
     Navbar,
@@ -180,7 +179,7 @@ export default {
       this.$http.get(api).then(response => {
         const newproduct = response.data.products
         vm.Menproducts = newproduct.filter(item => {
-          return item.category == 'hotman'
+          return item.category === 'hotman'
         })
       })
     },
@@ -195,7 +194,7 @@ export default {
       this.$http.get(api).then(response => {
         const newproduct = response.data.products
         vm.Toolproducts = newproduct.filter(
-          item => item.category == 'hotproduct'
+          item => item.category === 'hotproduct'
         )
       })
     },

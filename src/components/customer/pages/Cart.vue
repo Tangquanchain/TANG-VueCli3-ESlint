@@ -178,7 +178,6 @@
 
 <script>
 import AlertConpon from '../AlertCoupon'
-import AlertAside from '../AlertAside'
 export default {
   components: {
     AlertConpon
@@ -236,7 +235,6 @@ export default {
           this.$http.post(api, { data: vm.form }).then(response => {
             // vm.isLoading = false;
             if (response.data.success) {
-              const orderId = response.data.orderId
               vm.$router.push(`/checkout/formdata/${response.data.orderId}`)
             }
           })
@@ -253,7 +251,7 @@ export default {
         code: vm.coupon_code
       }
       this.$http.post(api, { data: coupon }).then(response => {
-        if (response.data.success == true) {
+        if (response.data.success === true) {
           vm.getProduct()
           vm.isLoading = false
           vm.$bus.$emit('coupon:push', 'Apply to success')

@@ -86,7 +86,7 @@
               </div>
               <div
                 class="newstamp p-2"
-                v-if="item.category == 'hotman' || item.category == 'hotproduct'"
+                v-if="item.category === 'hotman' || item.category === 'hotproduct'"
               >
                 <span>HOT</span>
               </div>
@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import $ from 'jquery'
+
 export default {
   data () {
     return {
@@ -127,7 +127,7 @@ export default {
       this.$http.get(api).then(response => {
         const newproduct = response.data.products
         vm.AllProduct = newproduct.filter(item => {
-          return item.category == 'hotman' || item.category == 'hotproduct'
+          return item.category === 'hotman' || item.category === 'hotproduct'
         })
       })
     },
@@ -138,7 +138,7 @@ export default {
       this.$http.get(api).then(response => {
         const newproduct = response.data.products
         vm.AllProduct = newproduct.filter(item => {
-          return item.category == 'style'
+          return item.category === 'style'
         })
       })
     },
@@ -149,16 +149,14 @@ export default {
       this.$http.get(api).then(response => {
         const newproduct = response.data.products
         vm.AllProduct = newproduct.filter(item => {
-          return item.category == 'tools'
+          return item.category === 'tools'
         })
       })
     },
-
     getAllProduct () {
       const vm = this
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
       this.$http.get(api).then(response => {
-        const AllProduct = response.data.products
         vm.AllProduct = response.data.products
       })
     },

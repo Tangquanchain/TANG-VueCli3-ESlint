@@ -1,4 +1,4 @@
 module.exports = {
   runtimeCompiler: true,
-  publicPath: '/TAGVUE3/vuecli3test/'
+  publicPath: '/TANG-VueCli3-ESlint/vue3clidemo/'
 }

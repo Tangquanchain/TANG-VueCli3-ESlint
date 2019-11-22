@@ -195,9 +195,9 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import AlertCart from './AlertCartMessage'
 import AlertConpon from '../customer/AlertCoupon'
-import $ from 'jquery'
 export default {
   components: {
     AlertCart,
@@ -267,7 +267,7 @@ export default {
       const vm = this
       if (vm.number !== '') {
         vm.order.forEach((item, i) => {
-          if (item == vm.number) {
+          if (item === vm.number) {
             this.$router.push(`/checkout/formdata/${vm.number}`)
             $('#orderModal').modal('hide')
           }
@@ -292,8 +292,8 @@ export default {
   },
   created () {
     $(function () {
-      new ClipboardJS('.btn-coupon')
-    }),
+      new ClipboardJS('.btn-coupon') // eslint-disable-line
+    })
     this.getProduct()
     this.getOrder()
   }

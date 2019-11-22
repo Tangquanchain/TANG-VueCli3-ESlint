@@ -158,8 +158,7 @@ export default {
       pagination: {},
       tempProducts: {},
       coupon_code: [],
-      coupon_percent: '',
-      isLoading: false
+      coupon_percent: ''
     }
   },
   components: {
@@ -193,7 +192,6 @@ export default {
       const timestamp = new Date(vm.tempProducts.due_date) // 獲取timestamp時間
       // vm.tempProducts.due_date = timestamp.toISOString().replace("T", " ").substr(0, 10); //ISO格式
       vm.tempProducts.due_date = timestamp.toLocaleDateString().replace('/', '-').replace('/', '-')
-      const postCoupon = vm.couponData
       let httpMethod = 'post'
       if (!vm.isNew) {
         // false變成true執行

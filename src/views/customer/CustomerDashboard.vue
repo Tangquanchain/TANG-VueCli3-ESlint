@@ -15,7 +15,6 @@ import Navbar from '../../components/customer/Navbar'
 import Aside from '../../components/customer/Aside'
 import Footer from '../../components/customer/Footer'
 import Alert from '../../components/customer/AlertMessage'
-import $ from 'jquery'
 
 export default {
   components: {

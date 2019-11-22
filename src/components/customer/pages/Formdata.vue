@@ -138,29 +138,13 @@ export default {
           }, 15000)
         }
       })
-    },
-
-    copyId (id) {
-      var TextRange = document.createRange()
-
-      TextRange.selectNode(document.getElementById(id))
-
-      sel = window.getSelection()
-
-      sel.removeAllRanges()
-
-      sel.addRange(TextRange)
-
-      document.execCommand('copy')
-
-      alert('複製完成！') // 此行可加可不加
     }
   },
   created () {
     $(function () {
       $('[data-toggle="tooltip"]').tooltip()
-    }),
-    (this.orderId = this.$route.params.orderId) // 取得網址上orderId的參數
+    })
+    this.orderId = this.$route.params.orderId// 取得網址上orderId的參數
     this.getOrder()
   }
 }
