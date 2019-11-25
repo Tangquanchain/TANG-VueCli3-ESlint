@@ -13,16 +13,14 @@ export default {
   },
   methods: {
     getCartNum (cartNum) {
-      // console.log(cartNum);
-      this.CartNumber = cartNum
+      this.CartNumber = cartNum;
     }
   },
   created () {
-    const vm = this
+    const vm = this;
     vm.$bus.$on('cartnum:push', cartNum => {
-      vm.getCartNum(cartNum)
+      vm.getCartNum(cartNum);
     })
-    vm.getCartNum()// 測試用
   }
 }
 </script>

@@ -34,13 +34,13 @@
 </template>
 
 <script>
-import Pagination from '../Pagination'
+import Pagination from '../Pagination';
 export default {
   data () {
     return {
       prodata: [],
       pagination: {}
-    }
+    };
   },
 
   components: {
@@ -49,16 +49,16 @@ export default {
 
   methods: {
     getProduct (page = 1) {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/orders?page=${page}`
+      const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/orders?page=${page}`;
       this.$http.get(api).then(response => {
-        vm.prodata = response.data.orders
-        vm.pagination = response.data.pagination
-      })
+        vm.prodata = response.data.orders;
+        vm.pagination = response.data.pagination;
+      });
     }
   },
   created () {
-    this.getProduct()
+    this.getProduct();
   }
-}
+};
 </script>

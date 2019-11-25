@@ -22,7 +22,7 @@
       </router-link>
       <!-- 手機管理 -->
       <div class="d-md-none">
-        <a @click.prevent="OrderBtn" class="nav-link text-dark order-md-1" href="#">
+        <a  data-toggle="modal" data-target="#orderModal" @click.prevent="addOrder" class="nav-link text-dark order-md-1" href="#">
           <i
             aria-hidden="true"
             class="far fa-edit align-baseline text-white"
@@ -45,7 +45,8 @@
           </li>
           <li class="nav-item">
             <a
-              @click.prevent="OrderBtn"
+              data-toggle="modal"
+              data-target="#orderModal"
               class="nav-item nav-link text-white mr-5 font-weight-bold d-sm-block d-md-none"
             >
               <i
@@ -65,6 +66,7 @@
               style="cursor:pointer"
               data-toggle="modal"
               data-target="#orderModal"
+              @click.prevent="addOrder"
             >
               <i
                 class="far fa-edit align-baseline text-white"
@@ -199,6 +201,7 @@ import $ from 'jquery'
 import AlertCart from './AlertCartMessage'
 import AlertConpon from '../customer/AlertCoupon'
 export default {
+  props: [ 'cartsLen', 'carts' ],
   components: {
     AlertCart,
     AlertConpon
@@ -207,95 +210,87 @@ export default {
     return {
       isLoading: false,
       cartProduct: [],
-      cartLength: '',
-      cartTotal: '',
       number: '', // order number
-      order: []
+      orders: []
     }
   },
   methods: {
-    getOrder () {
-      const vm = this
-      const orderList = new Set()
-      for (let i = 1; i <= 10; i++) {
-        const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/orders` // 從後端取的orderId
-        this.$http.get(api).then(response => {
-          response.data.orders.forEach((item, i) => {
-            orderList.add(item.id)
-          })
-        })
-      }
-      vm.order = orderList
+    getCartProduct () {
+      const vm = this;
+      vm.$bus.$emit('cartnum:push', vm.cartsLen);
+      vm.$bus.$emit('cartfinish:push', vm.carts);
     },
 
-    getProduct () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const vm = this
-      this.$http.get(api).then(response => {
-        vm.cartProduct = response.data.data.carts
-        vm.cartTotal = response.data.data.total
-        vm.$bus.$emit('cartnum:push', response.data.data.carts.length)
-        vm.$bus.$emit('cartfinish:push', response.data.data.carts)
-      })
+    addOrder () {
+      const vm = this;
+      const orderList = new Set();
+      for (let i = 1; i <= 10; i++) {
+        const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/orders`;
+        this.$http.get(api).then(response => {
+          response.data.orders.forEach((item, i) => {
+            orderList.add(item.id);
+          });
+        });
+      }
+      vm.orders = orderList;
     },
 
     BtnCoupon () {
-      this.$bus.$emit('coupon:push', 'COPY')
+      this.$bus.$emit('coupon:push', 'COPY');
     },
 
     getCartScreen () {
       const vm = this
-      $('.cart-modal').addClass('cart-modal-open')
-      $('body').addClass('scrollClose')
-      $('.side_icon').toggleClass('animated')
-      $('.wrap').toggleClass('active')
-      $('.aside').toggleClass('active')
-      $('.Screen-modal').toggleClass('cart-modal-open')
-      vm.getProduct()
+      $('.cart-modal').addClass('cart-modal-open');
+      $('body').addClass('scrollClose');
+      $('.side_icon').toggleClass('animated');
+      $('.wrap').toggleClass('active');
+      $('.aside').toggleClass('active');
+      $('.Screen-modal').toggleClass('cart-modal-open');
+      vm.getCartProduct()
     },
 
     removeScreen () {
-      $('.cart-modal').removeClass('cart-modal-open')
-      $('body').removeClass('scrollClose')
-      $('.side_icon').toggleClass('animated')
-      $('.wrap').toggleClass('active')
-      $('.aside').toggleClass('active')
-      $('.Screen-modal').toggleClass('cart-modal-open')
+      $('.cart-modal').removeClass('cart-modal-open');
+      $('body').removeClass('scrollClose');
+      $('.side_icon').toggleClass('animated');
+      $('.wrap').toggleClass('active');
+      $('.aside').toggleClass('active');
+      $('.Screen-modal').toggleClass('cart-modal-open');
     },
 
     OrderBtn () {
-      const vm = this
+      const vm = this;
       if (vm.number !== '') {
-        vm.order.forEach((item, i) => {
-          if (item === vm.number) {
-            this.$router.push(`/checkout/formdata/${vm.number}`)
-            $('#orderModal').modal('hide')
-          }
-        })
+        this.$router.push(`/checkout/formdata/${vm.number}`);
+        $('#orderModal').modal('hide');
       } else {
-        vm.$bus.$emit('coupon:push', 'ERROR　NUMBER')
+        vm.$bus.$emit('coupon:push', 'ERROR　NUMBER');
       }
     },
 
     siderOpen () {
-      $('.side_icon').toggleClass('animated')
-      $('.wrap').toggleClass('active')
-      $('.aside').toggleClass('active')
-      $('.Screen-modal').toggleClass('cart-modal-open')
+      $('.side_icon').toggleClass('animated');
+      $('.wrap').toggleClass('active');
+      $('.aside').toggleClass('active');
+      $('.Screen-modal').toggleClass('cart-modal-open');
     },
     scrollClose () {
-      $('.Screen-modal').toggleClass('cart-modal-open')
-      $('.wrap').removeClass('active')
-      $('.aside').removeClass('active')
-      $('.side_icon').removeClass('animated')
+      $('.Screen-modal').toggleClass('cart-modal-open');
+      $('.wrap').removeClass('active');
+      $('.aside').removeClass('active');
+      $('.side_icon').removeClass('animated');
+    },
+    getorder () {
+      this.$bus.$emit('order:push');
     }
   },
   created () {
     $(function () {
-      new ClipboardJS('.btn-coupon') // eslint-disable-line
+      new ClipboardJS('.btn-coupon'); // eslint-disable-line
     })
-    this.getProduct()
-    this.getOrder()
+    this.getCartProduct();
+    this.getorder();
   }
 }
 </script>

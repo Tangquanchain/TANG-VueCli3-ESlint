@@ -221,7 +221,7 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import $ from 'jquery';
 
 export default {
   data () {
@@ -245,99 +245,101 @@ export default {
         },
         message: ''
       }
-    }
+    };
   },
   methods: {
     getProducts (page) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products?page${page}`
-      const vm = this
-      vm.isLoading = true
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products?page${page}`;
+      const vm = this;
+      vm.isLoading = true;
       this.$http.get(api).then(response => {
-        vm.isLoading = false
-        vm.products = response.data.products
-      })
+        vm.isLoading = false;
+        vm.products = response.data.products;
+      });
     },
     getProduct (id) {
       // 查看更多
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`
-      const vm = this
-      vm.status.loadingItem = id
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
+      const vm = this;
+      vm.status.loadingItem = id;
       this.$http.get(api).then(response => {
-        $('#ProductModal').modal('show')
-        vm.status.loadingItem = ''
-        vm.product = response.data.product
-        vm.product.num = 1
-      })
+        $('#ProductModal').modal('show');
+        vm.status.loadingItem = '';
+        vm.product = response.data.product;
+        vm.product.num = 1;
+      });
     },
     addtoCart (id, qty = 1) {
       // 加入購物車
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const vm = this
-      vm.status.loadingItem = id
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+      const vm = this;
+      vm.status.loadingItem = id;
       const cart = {
         product_id: id,
         qty
-      }
+      };
       this.$http.post(api, { data: cart }).then(response => {
-        $('#ProductModal').modal('hide')
-        vm.getCart()
-        vm.status.loadingItem = ''
-      })
+        $('#ProductModal').modal('hide');
+        vm.getCartProduct();
+        vm.status.loadingItem = '';
+      });
     },
-    getCart () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const vm = this
-      vm.isLoading = true
+    getCartProduct () {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+      const vm = this;
+      vm.isLoading = true;
       this.$http.get(api).then(response => {
-        vm.isLoading = false
-        vm.carts = response.data.data.carts
-        vm.cartTotal = response.data.data.total
-        vm.cartFinal_Total = response.data.data.final_total
-      })
+        vm.isLoading = false;
+        vm.carts = response.data.data.carts;
+        vm.cartTotal = response.data.data.total;
+        vm.cartFinal_Total = response.data.data.final_total;
+      });
     },
     removeCart (id) {
       // 刪除購物車
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`
-      const vm = this
-      vm.isLoading = true
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
+      const vm = this;
+      vm.isLoading = true;
       this.$http.delete(api).then(() => {
-        vm.getCart()
-        vm.isLoading = false
-      })
+        vm.getCartProduct();
+        vm.isLoading = false;
+      });
     },
     addCouponCode () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`
-      const vm = this
-      vm.isLoading = true
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
+      const vm = this;
+      vm.isLoading = true;
       const coupon = {
         code: vm.coupon_code
-      }
+      };
       this.$http.post(api, { data: coupon }).then(response => {
-        vm.getCart()
-        vm.isLoading = false
-      })
+        vm.getCartProduct();
+        vm.isLoading = false;
+      });
     },
     sendOrder () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`
-      const vm = this
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
+      const vm = this;
       // vm.isLoading = true;
       this.$validator.validate().then(result => {
         if (result) {
           this.$http.post(api, { data: vm.form }).then(response => {
             // vm.isLoading = false;
             if (response.data.success) {
-              vm.$router.push(`/admin/custom_checkout/${response.data.orderId}`)
+              vm.$router.push(
+                `/admin/custom_checkout/${response.data.orderId}`
+              );
             }
-          })
+          });
         } else {
-          console.log('表單錯誤')
+          console.log('表單錯誤');
         }
-      })
+      });
     }
   },
   created () {
-    this.getProducts()
-    this.getCart()
+    this.getProducts();
+    this.getCartProduct();
   }
-}
+};
 </script>

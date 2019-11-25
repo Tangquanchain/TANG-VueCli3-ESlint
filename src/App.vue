@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <!--我們要呈現元件的地方-->
-    <router-view> </router-view> <!-- HelloWorld.vue -->
+    <router-view> </router-view>
   </div>
 </template>
 

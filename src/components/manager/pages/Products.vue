@@ -39,7 +39,7 @@
       </tbody>
     </table>
 
-      <Pagination :pagination="pagination" @getPage="getProducts"></Pagination>
+    <Pagination :pagination="pagination" @getPage="getProducts"></Pagination>
 
     <!--Modal-->
     <div
@@ -225,8 +225,8 @@
 </template>
 
 <script>
-import $ from 'jquery'
-import Pagination from '../Pagination'
+import $ from 'jquery';
+import Pagination from '../Pagination';
 
 export default {
   data () {
@@ -240,7 +240,7 @@ export default {
         fileUploading: false
       },
       pagination: {}
-    }
+    };
   },
 
   components: {
@@ -249,53 +249,53 @@ export default {
 
   methods: {
     getProducts (page = 1) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`
-      const vm = this
-      vm.isLoading = true
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/products?page=${page}`;
+      const vm = this;
+      vm.isLoading = true;
       this.$http.get(api).then(response => {
-        vm.isLoading = false
-        vm.products = response.data.products
-        vm.pagination = response.data.pagination
-      })
+        vm.isLoading = false;
+        vm.products = response.data.products;
+        vm.pagination = response.data.pagination;
+      });
     },
     openModal (isNew, items) {
       if (isNew) {
-        this.tempProducts = {}
-        this.isNew = true
+        this.tempProducts = {};
+        this.isNew = true;
       } else {
-        this.tempProducts = Object.assign({}, items) // items 和 tempProducts指向同一個物件，使用Object.assign 避免傳參考，像是我改了其中一個{}資料，另一個{}也會更動到
-        this.isNew = false
+        this.tempProducts = Object.assign({}, items); // items 和 tempProducts指向同一個物件，使用Object.assign 避免傳參考，像是我改了其中一個{}資料，另一個{}也會更動到
+        this.isNew = false;
       }
-      $('#productsModal').modal('show')
+      $('#productsModal').modal('show');
     },
     updateProduct () {
-      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`
-      const vm = this
-      let httpMethod = 'post'
+      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product`;
+      const vm = this;
+      let httpMethod = 'post';
       if (!vm.isNew) {
         // false變成true執行
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProducts.id}`
-        httpMethod = 'put'
+        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProducts.id}`;
+        httpMethod = 'put';
       }
       this.$http[httpMethod](api, { data: vm.tempProducts }).then(response => {
         if (response.data.success) {
-          $('#productsModal').modal('hide')
-          vm.getProducts()
+          $('#productsModal').modal('hide');
+          vm.getProducts();
         } else {
-          $('#productsModal').modal('hide')
-          vm.getProducts()
+          $('#productsModal').modal('hide');
+          vm.getProducts();
         }
-      })
+      });
     },
 
     uploadFile () {
-      const uploadedFile = this.$refs.files.files[0] // 上傳到表單的圖片資料
-      const vm = this
+      const uploadedFile = this.$refs.files.files[0]; // 上傳到表單的圖片資料
+      const vm = this;
       // const id = this.$refs.files.id;
-      vm.status.fileUploading = true
-      const formData = new FormData() // 建立一個新的 FormData 物件。
-      formData.append('file-to-upload', uploadedFile) // 追加新值到 FormData 物件已有的對應鍵上；若該鍵不存在，則為其追加新的鍵。
-      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/upload`
+      vm.status.fileUploading = true;
+      const formData = new FormData(); // 建立一個新的 FormData 物件。
+      formData.append('file-to-upload', uploadedFile); // 追加新值到 FormData 物件已有的對應鍵上；若該鍵不存在，則為其追加新的鍵。
+      const url = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/upload`;
       this.$http
         .post(url, formData, {
           headers: {
@@ -303,38 +303,38 @@ export default {
           } // 傳送「檔案」必須使用表單的格式，將格式改成form-data的格式
         })
         .then(response => {
-          vm.status.fileUploading = false
+          vm.status.fileUploading = false;
           if (response.data.success) {
             // vm.tempProducts.imageUrl = response.data.imageUrl; //部分的變數如 imageUrl 由於 “未事先定義”所以需要使用 $set 的方式寫入
-            vm.$set(vm.tempProducts, 'imageUrl', response.data.imageUrl) // 強制將imageUrl:response.data.imageUrl掛載到tempProduct內，以達到雙向綁定
+            vm.$set(vm.tempProducts, 'imageUrl', response.data.imageUrl); // 強制將imageUrl:response.data.imageUrl掛載到tempProduct內，以達到雙向綁定
             // document.getElementById(id).value=""; 上傳檔案欄位中的值清空
           } else {
-            this.$bus.$emit('message:push', response.data.message, 'danger')
+            this.$bus.$emit('message:push', response.data.message, 'danger');
           }
-        })
+        });
     },
 
     delModal (items) {
-      this.tempProducts = items // 將點到的地方傳入tempProducts來作為刪除的預備
-      $('#delProductModal').modal('show') // 打開刪除模板
+      this.tempProducts = items; // 將點到的地方傳入tempProducts來作為刪除的預備
+      $('#delProductModal').modal('show'); // 打開刪除模板
     },
     readydelModal () {
-      let vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProducts.id}`
+      let vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/product/${vm.tempProducts.id}`;
       this.$http.delete(api).then(response => {
         if (response.data.success) {
-          $('#delProductModal').modal('hide')
-          vm.getProducts() // 刪除了資料庫資料所以要重新抓取資料刷新
+          $('#delProductModal').modal('hide');
+          vm.getProducts(); // 刪除了資料庫資料所以要重新抓取資料刷新
         } else {
-          $('#delProductModal').modal('hide')
-          vm.getProducts()
+          $('#delProductModal').modal('hide');
+          vm.getProducts();
         }
-      })
+      });
     }
   },
 
   created () {
-    this.getProducts()
+    this.getProducts();
   }
-}
+};
 </script>

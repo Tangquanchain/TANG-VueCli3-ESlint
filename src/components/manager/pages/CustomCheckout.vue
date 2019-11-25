@@ -68,29 +68,29 @@ export default {
         user: {}
       },
       orderId: ''
-    }
+    };
   },
   methods: {
     getOrder () {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`
+      const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`;
       this.$http.get(api).then(response => {
-        vm.order = response.data.order
-      })
+        vm.order = response.data.order;
+      });
     },
     payOrder () {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`
+      const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`;
       this.$http.post(api).then(response => {
         if (response.data.success) {
-          vm.getOrder() // 付款完成後重新整理頁面來判斷是否付款
+          vm.getOrder(); // 付款完成後重新整理頁面來判斷是否付款
         }
-      })
+      });
     }
   },
   created () {
-    this.orderId = this.$route.params.orderId // 取得網址上orderId的參數
-    this.getOrder()
+    this.orderId = this.$route.params.orderId; // 取得網址上orderId的參數
+    this.getOrder();
   }
-}
+};
 </script>

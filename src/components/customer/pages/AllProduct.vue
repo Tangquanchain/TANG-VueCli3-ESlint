@@ -74,7 +74,7 @@
               ></div>
               <div class="product_guide text-dark text-center p-3">
                 <h3 class="mb-2">SELECT</h3>
-                <!-- <button class="btn btn-size" type="buttom" @click="addtoCart(item.id)">ADD TO CART</button> -->
+                <!-- <button class='btn btn-size' type='buttom' @click='addtoCart(item.id)'>ADD TO CART</button> -->
                 <button
                   class="btn btn-size pr-5 pl-5"
                   type="buttom"
@@ -104,86 +104,79 @@
 </template>
 
 <script>
-
 export default {
   data () {
     return {
       KeyTxt: 'all',
       isLoading: false,
-      AllProduct: []
-    }
+      AllProduct: [],
+      cartsLen: ''
+    };
   },
   methods: {
     // side_menu
     allactive () {
-      const vm = this
-      vm.KeyTxt = 'all'
-      vm.getAllProduct()
+      const vm = this;
+      vm.KeyTxt = 'all';
+      vm.getAllProduct();
     },
     Hotactive () {
-      const vm = this
-      vm.KeyTxt = 'hot'
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
+      const vm = this;
+      vm.KeyTxt = 'hot';
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       this.$http.get(api).then(response => {
-        const newproduct = response.data.products
+        const newproduct = response.data.products;
         vm.AllProduct = newproduct.filter(item => {
-          return item.category === 'hotman' || item.category === 'hotproduct'
-        })
-      })
+          return item.category === 'hotman' || item.category === 'hotproduct';
+        });
+      });
     },
     Styleactive () {
-      const vm = this
-      vm.KeyTxt = 'style'
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
+      const vm = this;
+      vm.KeyTxt = 'style';
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       this.$http.get(api).then(response => {
-        const newproduct = response.data.products
+        const newproduct = response.data.products;
         vm.AllProduct = newproduct.filter(item => {
-          return item.category === 'style'
-        })
-      })
+          return item.category === 'style';
+        });
+      });
     },
     Toolsactive () {
-      const vm = this
-      vm.KeyTxt = 'tools'
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
+      const vm = this;
+      vm.KeyTxt = 'tools';
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       this.$http.get(api).then(response => {
-        const newproduct = response.data.products
+        const newproduct = response.data.products;
         vm.AllProduct = newproduct.filter(item => {
-          return item.category === 'tools'
-        })
-      })
+          return item.category === 'tools';
+        });
+      });
     },
     getAllProduct () {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
+      const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       this.$http.get(api).then(response => {
-        vm.AllProduct = response.data.products
-      })
-    },
-    getCartProduct () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const vm = this
-      this.$http.get(api).then(response => {
-        vm.$bus.$emit('cartnum:push', response.data.data.carts.length)
-      })
+        vm.AllProduct = response.data.products;
+      });
     },
     adddetail (id) {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`
+      const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
       this.$http.get(api).then(response => {
         if (response.data.success) {
-          vm.$router.push(`/store/shopping_cart/${response.data.product.id}`)
+          vm.$router.push(`/store/shopping_cart/${response.data.product.id}`);
         }
-      })
+      });
     }
   },
   created () {
-    this.getAllProduct()
+    this.getAllProduct();
   }
-}
+};
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 $black: #000;
 
 .left_side_menu {
@@ -198,7 +191,7 @@ $black: #000;
       position: relative;
     }
     // a.active::before {
-    //   content: "\2022";
+    //   content: '\2022';
     //   display: block;
     //   font-size: 2.4rem;
     //   line-height: 1.1;
@@ -210,7 +203,6 @@ $black: #000;
 }
 
 .select_menu {
-
   position: sticky;
   top: 100px;
 
@@ -321,7 +313,7 @@ $black: #000;
 }
 
 .newproduct {
-    border: 4px solid rgba(28, 30, 27,.9);
+  border: 4px solid rgba(28, 30, 27, 0.9);
   p {
     font-size: 21px;
     font-family: "Open Sans", sans-serif;

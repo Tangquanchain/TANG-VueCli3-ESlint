@@ -7,7 +7,9 @@
     "env": {
       "node": true
     },
-    "rules": {},
+    "rules": {
+      "semi":0 //不檢查; 
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

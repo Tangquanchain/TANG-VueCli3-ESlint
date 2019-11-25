@@ -41,20 +41,20 @@ export default {
         username: '',
         password: ''
       }
-    }
+    };
   },
   methods: {
     signin () {
-      const api = `${process.env.VUE_APP_APIPATH}/admin/signin`
-      const vm = this // VueComponent
+      const api = `${process.env.VUE_APP_APIPATH}/admin/signin`;
+      const vm = this; // VueComponent
       this.$http.post(api, vm.user).then(response => {
         if (response.data.success) {
-          vm.$router.push('/dashboard/products')
+          vm.$router.push('/dashboard/products');
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>

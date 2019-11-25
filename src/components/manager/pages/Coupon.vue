@@ -148,8 +148,8 @@
 </template>
 
 <script>
-import $ from 'jquery'
-import Pagination from '../Pagination'
+import $ from 'jquery';
+import Pagination from '../Pagination';
 export default {
   data () {
     return {
@@ -159,75 +159,78 @@ export default {
       tempProducts: {},
       coupon_code: [],
       coupon_percent: ''
-    }
+    };
   },
   components: {
     Pagination
   },
   methods: {
     getCoupon (page = 1) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${page}`
-      const vm = this
-      vm.isLoading = true
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupons?page=${page}`;
+      const vm = this;
+      vm.isLoading = true;
       this.$http.get(api).then(response => {
-        vm.isLoading = false
-        vm.coupon_code = response.data.coupons
-        vm.pagination = response.data.pagination
-      })
+        vm.isLoading = false;
+        vm.coupon_code = response.data.coupons;
+        vm.pagination = response.data.pagination;
+      });
     },
     openCoupon (isNew, items) {
       if (isNew) {
-        this.tempProducts = {}
-        this.isNew = true
+        this.tempProducts = {};
+        this.isNew = true;
       } else {
-        this.tempProducts = Object.assign({}, items)
-        this.isNew = false
+        this.tempProducts = Object.assign({}, items);
+        this.isNew = false;
       }
-      $('#ProductModal').modal('show')
+      $('#ProductModal').modal('show');
     },
 
     sendCoupon (id) {
-      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`
-      const vm = this
-      const timestamp = new Date(vm.tempProducts.due_date) // 獲取timestamp時間
+      let api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon`;
+      const vm = this;
+      const timestamp = new Date(vm.tempProducts.due_date); // 獲取timestamp時間
       // vm.tempProducts.due_date = timestamp.toISOString().replace("T", " ").substr(0, 10); //ISO格式
-      vm.tempProducts.due_date = timestamp.toLocaleDateString().replace('/', '-').replace('/', '-')
-      let httpMethod = 'post'
+      vm.tempProducts.due_date = timestamp
+        .toLocaleDateString()
+        .replace('/', '-')
+        .replace('/', '-');
+      let httpMethod = 'post';
       if (!vm.isNew) {
         // false變成true執行
-        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${vm.tempProducts.id}`
-        httpMethod = 'put'
+        api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${vm.tempProducts.id}`;
+        httpMethod = 'put';
       }
       this.$http[httpMethod](api, { data: vm.tempProducts }).then(response => {
         if (response.data.success) {
-          $('#ProductModal').modal('hide')
-          vm.getCoupon()
+          $('#ProductModal').modal('hide');
+          vm.getCoupon();
         } else {
-          $('#ProductModal').modal('hide')
-          vm.getCoupon()
+          $('#ProductModal').modal('hide');
+          vm.getCoupon();
         }
-      })
+      });
     },
     delModal (items) {
-      this.tempProducts = items // 將點到的地方傳入tempProducts來作為刪除的預備
-      $('#delProductModal').modal('show') // 打開刪除模板
+      this.tempProducts = items; // 將點到的地方傳入tempProducts來作為刪除的預備
+      $('#delProductModal').modal('show'); // 打開刪除模板
     },
     readydelModal () {
-      let vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${vm.tempProducts.id}`
+      let vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/admin/coupon/${vm.tempProducts.id}`;
       this.$http.delete(api).then(response => {
         if (response.data.success) {
-          $('#delProductModal').modal('hide')
-          vm.getCoupon() // 刪除了資料庫資料所以要重新抓取資料刷新
+          $('#delProductModal').modal('hide');
+          vm.getCoupon(); // 刪除了資料庫資料所以要重新抓取資料刷新
         } else {
-          $('#delProductModal').modal('hide')
-          vm.getCoupon()
+          $('#delProductModal').modal('hide');
+          vm.getCoupon();
         }
-      })
+      });
     }
   },
   created () {
-    this.getCoupon()
+    this.getCoupon();
   }
-}
+};
 </script>

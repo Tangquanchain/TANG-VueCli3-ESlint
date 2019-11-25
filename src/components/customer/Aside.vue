@@ -1,19 +1,19 @@
 <template>
   <div>
     <div class="aside">
-       <AlertAside/>
+      <AlertAside />
       <loading :active.sync="isLoading"></loading>
       <div class="aside_title d-flex justify-content-center align-items-center text-center">
         <p class="mb-0 mr-1">CART LIST</p>
         <span class="badge badge-pill badge-danger" style="font-size:15px">
-          <AlertCart />
+          <AlertCart cartLen></AlertCart>
         </span>
       </div>
 
       <div
         class="d-flex justify-content-center align-items-center text-center"
         style="height:75%;"
-        v-if=" cartProduct == ''"
+        v-if=" carts == ''"
       >
         <div class="text-center p-3">
           <p class="cartProduct_txt mb-0">CART IS EMPTY.</p>
@@ -22,8 +22,8 @@
       </div>
 
       <table class="table table-sm mr-5">
-        <tbody v-if="cartProduct">
-          <tr v-for="items in cartProduct" :key="items.id">
+        <tbody v-if="carts">
+          <tr v-for="items in carts" :key="items.id">
             <td class="align-middle text-center p-3">
               <div
                 :style="`width:100px; height:100px; background: url(${items.product.imageUrl}) center / cover no-repeat;`"
@@ -41,20 +41,20 @@
             </td>
           </tr>
         </tbody>
-        <tfoot v-if=" cartProduct != ''">
+        <tfoot v-if=" carts != ''">
           <tr>
             <td class="text-left pl-3" colspan="2">
               <p class="cartProduct_txt mb-0">TOTAL</p>
             </td>
             <td class="text-right pr-4" colspan="3">
-              <p class="cartProduct_txt mb-0">{{ cartTotal | currency }} TW</p>
+              <p class="cartProduct_txt mb-0">{{ cartsTotal | currency }} TW</p>
             </td>
           </tr>
         </tfoot>
       </table>
       <a
         href="#"
-        v-if=" cartProduct != ''"
+        v-if=" carts != ''"
         class="btn checkout btn-primary btn-block mt-2"
         style="border-radius:20px"
         @click.prevent="checkout"
@@ -66,10 +66,11 @@
 </template>
 
 <script>
-import $ from 'jquery'
-import AlertCart from './AlertCartMessage'
-import AlertAside from './AlertAside'
+import $ from 'jquery';
+import AlertCart from './AlertCartMessage';
+import AlertAside from './AlertAside';
 export default {
+  props: ['cartsLen', 'cartsTotal', 'carts'],
   components: {
     AlertCart,
     AlertAside
@@ -81,58 +82,49 @@ export default {
       cartLength: '',
       cartTotal: '',
       insidecart: false
-    }
+    };
   },
   methods: {
-    getProduct () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const vm = this
-      this.$http.get(api).then(response => {
-        vm.cartProduct = response.data.data.carts
-        vm.cartTotal = response.data.data.total
-        vm.$bus.$emit('cartnum:push', response.data.data.carts.length)
-      })
+    getCartProduct () {
+      const vm = this;
+      vm.$bus.$emit('cartnum:push', vm.cartsLen);
+      vm.$bus.$emit('cartfinish:push', vm.carts);
     },
 
     removeCart (id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`
-      const vm = this
-      vm.isLoading = true
-      this.$http.delete(api).then((response) => {
-        vm.isLoading = false
-        vm.getProduct()
-        vm.$bus.$emit('remove:push', 'Remove item')
-      })
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
+      const vm = this;
+      vm.isLoading = true;
+      this.$http.delete(api).then(response => {
+        vm.isLoading = false;
+        vm.getCartProduct();
+        vm.$bus.$emit('remove:push', 'Remove item');
+      });
     },
 
     goshop () {
-      this.$router.push('/store/allproduct')
+      this.$router.push('/store/allproduct');
     },
 
     managerurl () {
-      this.$router.push('/dashboard')
+      this.$router.push('/dashboard');
     },
 
     checkout () {
-      this.$router.push('/checkout/cart')
-      $('body').removeClass('scrollClose')
+      this.$router.push('/checkout/cart');
+      $('body').removeClass('scrollClose');
     }
   },
-
   created () {
-    const vm = this
+    const vm = this;
     vm.$bus.$on('cart:push', () => {
-      vm.getProduct()
-    })
-    vm.$bus.$on('cartfinish:push', () => {
-      vm.getProduct()
-    })
-    this.getProduct()
+      vm.getCartProduct();
+    });
   }
-}
+};
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 $black: #000;
 $side-white: rgba(212, 212, 212, 0.8);
 

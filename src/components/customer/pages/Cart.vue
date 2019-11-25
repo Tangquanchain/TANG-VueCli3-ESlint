@@ -39,7 +39,7 @@
                     placeholder="Email"
                     v-validate="'required|email'"
                   />
-                  <!-- <span class="text-danger" v-if="errors.has('email')">{{ errors.first('email') }}</span> -->
+                  <!-- <span class='text-danger' v-if='errors.has('email')'>{{ errors.first('email') }}</span> -->
                   <span class="text-danger" v-if="errors.has('email')">Check Email</span>
                 </div>
 
@@ -99,7 +99,7 @@
                     v-model="form.message"
                   ></textarea>
                 </div>
-                <div class="text-right"  v-if="cartProduct != ''">
+                <div class="text-right" v-if="cartProduct != ''">
                   <button class="btn btn-continue text-white">CONTINUE</button>
                 </div>
               </form>
@@ -177,7 +177,7 @@
 </template>
 
 <script>
-import AlertConpon from '../AlertCoupon'
+import AlertConpon from '../AlertCoupon';
 export default {
   components: {
     AlertConpon
@@ -199,78 +199,78 @@ export default {
         },
         message: ''
       }
-    }
+    };
   },
   methods: {
-    getProduct () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const vm = this
+    getCartProduct () {
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+      const vm = this;
       this.$http.get(api).then(response => {
-        vm.cartProduct = response.data.data.carts
-        vm.cartTotal = response.data.data.total
-        vm.cartFinal_Total = response.data.data.final_total // 折扣後的價格
-        vm.$bus.$emit('cartnum:push', response.data.data.carts.length)
-      })
+        vm.cartProduct = response.data.data.carts;
+        vm.cartTotal = response.data.data.total;
+        vm.cartFinal_Total = response.data.data.final_total; // 折扣後的價格
+        vm.$bus.$emit('cartnum:push', response.data.data.carts.length);
+      });
     },
     goshop () {
-      this.$router.push('/store/allproduct')
+      this.$router.push('/store/allproduct');
     },
 
     removeCart (id) {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`
-      const vm = this
-      vm.isLoading = true
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart/${id}`;
+      const vm = this;
+      vm.isLoading = true;
       this.$http.delete(api).then(() => {
-        vm.isLoading = false
-        vm.getProduct()
-        vm.$bus.$emit('coupon:push', 'Remove item')
-      })
+        vm.isLoading = false;
+        vm.getCartProduct();
+        vm.$bus.$emit('coupon:push', 'Remove item');
+      });
     },
     sendOrder () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`
-      const vm = this
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order`;
+      const vm = this;
       // vm.isLoading = true;
       this.$validator.validate().then(result => {
         if (result) {
           this.$http.post(api, { data: vm.form }).then(response => {
             // vm.isLoading = false;
             if (response.data.success) {
-              vm.$router.push(`/checkout/formdata/${response.data.orderId}`)
+              vm.$router.push(`/checkout/formdata/${response.data.orderId}`);
             }
-          })
+          });
         } else {
-          console.log('form is error')
+          console.log('form is error');
         }
-      })
+      });
     },
     addCouponCode () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`
-      const vm = this
-      vm.isLoading = true
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/coupon`;
+      const vm = this;
+      vm.isLoading = true;
       const coupon = {
         code: vm.coupon_code
-      }
+      };
       this.$http.post(api, { data: coupon }).then(response => {
         if (response.data.success === true) {
-          vm.getProduct()
-          vm.isLoading = false
-          vm.$bus.$emit('coupon:push', 'Apply to success')
+          vm.getCartProduct();
+          vm.isLoading = false;
+          vm.$bus.$emit('coupon:push', 'Apply to success');
         } else {
-          vm.isLoading = false
-          vm.getProduct()
-          vm.$bus.$emit('coupon:push', "Can't find Coupon")
+          vm.isLoading = false;
+          vm.getCartProduct();
+          vm.$bus.$emit('coupon:push', "Can't find Coupon");
         }
-      })
+      });
     }
   },
 
   created () {
-    this.getProduct()
+    this.getCartProduct();
   }
-}
+};
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 $black: #000;
 .breakcrumb {
   display: flex;

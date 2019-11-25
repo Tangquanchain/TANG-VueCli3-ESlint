@@ -37,12 +37,11 @@
 
 <script>
 export default {
-
   props: ['pagination'],
   methods: {
     getProducts (page) {
-      this.$emit('getPage', page)
+      this.$emit('getPage', page);
     }
   }
-}
+};
 </script>

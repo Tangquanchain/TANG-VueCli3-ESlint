@@ -22,14 +22,14 @@ export default {
   name: 'Navbar',
   methods: {
     signout () {
-      const vm = this
-      const url = `${process.env.VUE_APP_APIPATH}/logout`
-      this.$http.post(url).then((response) => {
+      const vm = this;
+      const url = `${process.env.VUE_APP_APIPATH}/logout`;
+      this.$http.post(url).then(response => {
         if (response.data.success) {
-          vm.$router.push('/login')
+          vm.$router.push('/login');
         }
-      })
+      });
     }
   }
-}
+};
 </script>

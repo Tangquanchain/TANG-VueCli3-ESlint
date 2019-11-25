@@ -39,7 +39,7 @@ new Vue({
 }).$mount('#app')
 
 router.beforeEach((to, from, next) => { // 切換頁面觸發router.beforeEach()
-  console.log('to', to, 'from', from, 'next', next)
+  // console.log('to', to, 'from', from, 'next', next)
 
   if (to.meta.requiresAuth) { // 判斷假如已經登入過，就可以直接貼login網址進入
     const api = `${process.env.VUE_APP_APIPATH}/api/user/check`

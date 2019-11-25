@@ -3,35 +3,40 @@
     <loading :active.sync="isLoading"></loading>
     <div class="wrap">
       <Aside />
-      <Navbar />
+      <!-- 從這邊開始11/24 將 getCartProduct 長度藉由props傳遞 -->
+      <Navbar :cartsLen="cartsLen" />
       <div class="container">
         <header>
           <div class="content_brand">
             <div class="row no-gutters">
               <div class="col-md-4 mt-sm-12 imghw_size">
                 <div class="img_banner">
-                  <a class href="#">
-                    <img
-                      class="imghw_size1"
-                      style="height:581px; width:350px; margin-top:7px;"
-                      src="https://images.unsplash.com/photo-1533245270348-821d4d5c7514?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
-                      alt
-                    />
-                  </a>
+                  <router-link to="/store/shopping_cart/-Lrraw9lf4blwAstA0rg">
+                    <a class href="#">
+                      <img
+                        class="imghw_size1"
+                        style="height:581px; width:350px; margin-top:7px;"
+                        src="https://images.unsplash.com/photo-1533245270348-821d4d5c7514?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80"
+                        alt
+                      />
+                    </a>
+                  </router-link>
                 </div>
               </div>
               <div class="col-md-8 col-sm-12 mt-sm-2">
                 <div class="row">
                   <div class="col-5 d-none d-sm-block">
                     <div class="img_banner img_side">
-                      <a href="#">
-                        <img
-                          class="imghw_size2"
-                          style="height:238px; width:440px;"
-                          src="https://images.unsplash.com/photo-1551491165-d77a9f869e0c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
-                          alt
-                        />
-                      </a>
+                      <router-link to="/store/shopping_cart/-LrrY6aBFKN0dkKrYjXI">
+                        <a href="#">
+                          <img
+                            class="imghw_size2"
+                            style="height:238px; width:440px;"
+                            src="https://images.unsplash.com/photo-1551491165-d77a9f869e0c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
+                            alt
+                          />
+                        </a>
+                      </router-link>
                     </div>
                   </div>
                   <div class="col-sm-5 ml-auto">
@@ -52,13 +57,15 @@
                 <div class="row">
                   <div class="col-12 mt-2">
                     <div class="img_banner">
-                      <a href="#">
-                        <img
-                          style="height:334px; width:100%"
-                          src="https://images.unsplash.com/photo-1534778356534-d3d45b6df1da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
-                          alt
-                        />
-                      </a>
+                      <router-link to="/store/allproduct">
+                        <a href="#">
+                          <img
+                            style="height:334px; width:100%"
+                            src="https://images.unsplash.com/photo-1534778356534-d3d45b6df1da?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+                            alt
+                          />
+                        </a>
+                      </router-link>
                     </div>
                   </div>
                 </div>
@@ -139,7 +146,6 @@
                     <span>HOT</span>
                   </div>
                 </div>
-
                 <div class="txt text-center mt-2">
                   <p class="font-weight-bold">{{items.title}}</p>
                   <p class="font-weight-bold">{{items.price | currency}} TW</p>
@@ -155,9 +161,10 @@
 </template>
 
 <script>
-import Navbar from '../../components/customer/Navbar'
-import Aside from '../../components/customer/Aside'
-import Footer from '../../components/customer/Footer'
+import Navbar from '../../components/customer/Navbar';
+import Aside from '../../components/customer/Aside';
+import Footer from '../../components/customer/Footer';
+import $ from 'jquery';
 export default {
   components: {
     Navbar,
@@ -169,59 +176,79 @@ export default {
       isLoading: false,
       Menproducts: [],
       Toolproducts: [],
-      newProductsimg: {}
-    }
+      newProductsimg: {},
+      cartsLen: '',
+      orders: []
+    };
   },
   methods: {
     getManProducts () {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
+      const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       this.$http.get(api).then(response => {
-        const newproduct = response.data.products
+        const newproduct = response.data.products;
         vm.Menproducts = newproduct.filter(item => {
-          return item.category === 'hotman'
-        })
-      })
+          return item.category === 'hotman';
+        });
+      });
     },
 
     goProducts () {
-      this.$router.push('/store/allproduct')
+      this.$router.push('/store/allproduct');
     },
 
     getToolProducts () {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`
+      const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/products/all`;
       this.$http.get(api).then(response => {
-        const newproduct = response.data.products
+        const newproduct = response.data.products;
         vm.Toolproducts = newproduct.filter(
           item => item.category === 'hotproduct'
-        )
-      })
+        );
+      });
     },
 
     getCartProduct () {
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`
-      const vm = this
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/cart`;
+      const vm = this;
       this.$http.get(api).then(response => {
-        vm.$bus.$emit('cartnum:push', response.data.data.carts.length)
-      })
+        vm.cartsLen = response.data.data.carts.length;
+        vm.$bus.$emit('cartnum:push', response.data.data.carts.length);
+      });
+    },
+
+    getOrder () {
+      const vm = this;
+      const orderList = new Set();
+      for (let i = 1; i <= 10; i++) {
+        const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/orders`; // 從後端取的orderId
+        this.$http.get(api).then(response => {
+          response.data.orders.forEach((item, i) => {
+            orderList.add(item.id);
+          });
+        });
+      }
+      vm.orders = orderList;
     },
 
     adddetail (id) {
-      const vm = this
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`
+      const vm = this;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/product/${id}`;
       this.$http.get(api).then(response => {
         if (response.data.success) {
-          vm.$router.push(`/store/shopping_cart/${response.data.product.id}`)
+          vm.$router.push(`/store/shopping_cart/${response.data.product.id}`);
+          $('html,body').animate({ scrollTop: '0px' }, 900);
         }
-      })
+      });
     }
   },
   created () {
-    this.getManProducts()
-    this.getToolProducts()
+    const vm = this;
+    vm.getManProducts();
+    vm.getToolProducts();
+    vm.getCartProduct();
   }
-}
+};
 </script>
 
 <style lang="scss">
