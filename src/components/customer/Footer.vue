@@ -35,7 +35,7 @@
             <div class="contact_page text-center">
               <ul class="list-unstyled">
                 <li class="pt-2 pb-2">
-                  <a href="#"  @click.prevent="AllProduct">
+                  <a href="#" @click.prevent="AllProduct">
                     <span>Account</span>
                   </a>
                 </li>
@@ -59,19 +59,28 @@
                 <ul class="list-unstyled">
                   <li class="pt-2 pb-2">
                     <a href="#">
-                      <img src="../../../static/images/fb_like.png" style="width:30px; height:30px;" />
+                      <img
+                        src="../../../static/images/fb_like.png"
+                        style="width:30px; height:30px;"
+                      />
                       <span class="ml-1">Facebook</span>
                     </a>
                   </li>
                   <li class="pt-2 pb-2">
                     <a href="#">
-                      <img src="../../../static/images/line_like.png" style="width:30px; height:30px;" />
+                      <img
+                        src="../../../static/images/line_like.png"
+                        style="width:30px; height:30px;"
+                      />
                       <span class="ml-1">Line</span>
                     </a>
                   </li>
                   <li class="pt-2 pb-2">
                     <a href="#">
-                      <img src="../../../static/images/twitter_like.png" style="width:30px; height:30px;" />
+                      <img
+                        src="../../../static/images/twitter_like.png"
+                        style="width:30px; height:30px;"
+                      />
                       <span class="ml-1">Twitter</span>
                     </a>
                   </li>
@@ -96,19 +105,18 @@
 export default {
   methods: {
     AllProduct () {
-      const vm = this
-      vm.$router.push('/store/allproduct')
+      const vm = this;
+      vm.$router.push('/store/allproduct');
     },
     Manager () {
-      const vm = this
-      vm.$router.push('/login')
+      const vm = this;
+      vm.$router.push('/login');
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-
 .footer {
   background-image: url("../../../static/images/footer2.png");
   width: 100%;

@@ -22,7 +22,13 @@
       </router-link>
       <!-- 手機管理 -->
       <div class="d-md-none">
-        <a  data-toggle="modal" data-target="#orderModal" @click.prevent="addOrder" class="nav-link text-dark order-md-1" href="#">
+        <a
+          data-toggle="modal"
+          data-target="#orderModal"
+          @click.prevent="addOrder"
+          class="nav-link text-dark order-md-1"
+          href="#"
+        >
           <i
             aria-hidden="true"
             class="far fa-edit align-baseline text-white"
@@ -197,11 +203,11 @@
 </template>
 
 <script>
-import $ from 'jquery'
-import AlertCart from './AlertCartMessage'
-import AlertConpon from '../customer/AlertCoupon'
+import $ from 'jquery';
+import AlertCart from './AlertCartMessage';
+import AlertConpon from '../customer/AlertCoupon';
 export default {
-  props: [ 'cartsLen', 'carts' ],
+  props: ['cartsLen', 'carts'],
   components: {
     AlertCart,
     AlertConpon
@@ -212,7 +218,7 @@ export default {
       cartProduct: [],
       number: '', // order number
       orders: []
-    }
+    };
   },
   methods: {
     getCartProduct () {
@@ -240,14 +246,14 @@ export default {
     },
 
     getCartScreen () {
-      const vm = this
+      const vm = this;
       $('.cart-modal').addClass('cart-modal-open');
       $('body').addClass('scrollClose');
       $('.side_icon').toggleClass('animated');
       $('.wrap').toggleClass('active');
       $('.aside').toggleClass('active');
       $('.Screen-modal').toggleClass('cart-modal-open');
-      vm.getCartProduct()
+      vm.getCartProduct();
     },
 
     removeScreen () {
@@ -287,17 +293,17 @@ export default {
   },
   created () {
     $(function () {
-      new ClipboardJS('.btn-coupon'); // eslint-disable-line
-    })
+      new ClipboardJS(".btn-coupon"); // eslint-disable-line
+    });
     this.getCartProduct();
     this.getorder();
   }
-}
+};
 </script>
 
 <style lang="scss">
 $side-header: #ececec;
-$white:#fff;
+$white: #fff;
 
 .scrollClose {
   overflow-y: hidden;

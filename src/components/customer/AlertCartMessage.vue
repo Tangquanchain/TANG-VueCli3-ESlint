@@ -1,7 +1,5 @@
 <template>
-  <div>
-     {{ CartNumber }}
-  </div>
+  <div>{{ CartNumber }}</div>
 </template>
 
 <script>
@@ -9,7 +7,7 @@ export default {
   data () {
     return {
       CartNumber: ''
-    }
+    };
   },
   methods: {
     getCartNum (cartNum) {
@@ -20,7 +18,7 @@ export default {
     const vm = this;
     vm.$bus.$on('cartnum:push', cartNum => {
       vm.getCartNum(cartNum);
-    })
+    });
   }
-}
+};
 </script>

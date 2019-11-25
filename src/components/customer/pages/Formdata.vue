@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AlertFinishOrder/>
+    <AlertFinishOrder />
     <div class="container mt-5 mb-5" style="border: 3px solid #1c1e1b;">
       <loading :active.sync="isLoading"></loading>
       <div class="row justify-content-center">
@@ -98,8 +98,8 @@
 </template>
 
 <script>
-import $ from 'jquery'
-import AlertFinishOrder from '../AlertFinishOrder'
+import $ from 'jquery';
+import AlertFinishOrder from '../AlertFinishOrder';
 export default {
   components: {
     AlertFinishOrder
@@ -111,47 +111,50 @@ export default {
         user: {}
       },
       orderId: ''
-    }
+    };
   },
   methods: {
     getOrder () {
-      const vm = this
-      vm.isLoading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`
+      const vm = this;
+      vm.isLoading = true;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`;
       this.$http.get(api).then(response => {
-        vm.isLoading = false
-        vm.order = response.data.order
-      })
+        vm.isLoading = false;
+        vm.order = response.data.order;
+      });
     },
     payOrder () {
-      const vm = this
-      vm.isLoading = true
-      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`
+      const vm = this;
+      vm.isLoading = true;
+      const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`;
       this.$http.post(api).then(response => {
         if (response.data.success) {
-          $('AlertFinishOrder').addClass('active')
-          vm.isLoading = false
-          vm.$bus.$emit('finish:push', `Thanks for your shopping,your order is completed to be ready.`)
-          vm.getOrder() // 付款完成後重新整理頁面來判斷是否付款
+          $('AlertFinishOrder').addClass('active');
+          vm.isLoading = false;
+          vm.$bus.$emit(
+            'finish:push',
+            `Thanks for your shopping,your order is completed to be ready.`
+          );
+          vm.getOrder(); // 付款完成後重新整理頁面來判斷是否付款
           window.setTimeout(() => {
-            vm.$router.push('/checkout/complete')
-          }, 15000)
+            vm.$router.push('/checkout/complete');
+          }, 15000);
         }
-      })
+      });
     }
   },
   created () {
     $(function () {
-      $('[data-toggle="tooltip"]').tooltip()
-    })
-    this.orderId = this.$route.params.orderId// 取得網址上orderId的參數
-    this.getOrder()
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+    this.orderId = this.$route.params.orderId; // 取得網址上orderId的參數
+    this.getOrder();
   }
-}
+};
 </script>
 
 <style lang="scss">
-AlertFinishOrder.active{
+AlertFinishOrder.active {
   display: block !important;
 }
 

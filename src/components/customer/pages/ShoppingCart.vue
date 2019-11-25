@@ -1,17 +1,17 @@
 <template>
   <div>
-    <loading :active.sync='isLoading'></loading>
-    <div class='d-md-flex flex-wrap mt-4 mt-lg-5' style='margin:0 auto;'>
-      <div class='left_side_menu'>
-        <div class='select_menu text-center'>
-          <div class='toptxt bg-dark'>
-            <h4 class='text-white mb-0'>CATEGORY</h4>
+    <loading :active.sync="isLoading"></loading>
+    <div class="d-md-flex flex-wrap mt-4 mt-lg-5" style="margin:0 auto;">
+      <div class="left_side_menu">
+        <div class="select_menu text-center">
+          <div class="toptxt bg-dark">
+            <h4 class="text-white mb-0">CATEGORY</h4>
           </div>
-          <div class='txt'>
-            <ul class='list-unstyled'>
+          <div class="txt">
+            <ul class="list-unstyled">
               <li>
-                <a @click.prevent='backactive' :class='{"active": KeyTxt === "all"}' href='#'>
-                  <i class='fas fa-chevron-left mr-1'></i>
+                <a @click.prevent="backactive" :class="{'active': KeyTxt === 'all'}" href="#">
+                  <i class="fas fa-chevron-left mr-1"></i>
                   BACK TO SHOP
                 </a>
               </li>
@@ -20,59 +20,59 @@
         </div>
       </div>
 
-      <div class='topSelect-txt d-md-none'>
-        <ul class='list-unstyled d-flex justify-content-center align-items-center'>
+      <div class="topSelect-txt d-md-none">
+        <ul class="list-unstyled d-flex justify-content-center align-items-center">
           <li>
-            <div class='bg-dark'>
-              <h4 class='text-white mb-0'>CATEGORY</h4>
+            <div class="bg-dark">
+              <h4 class="text-white mb-0">CATEGORY</h4>
             </div>
           </li>
           <li>
-            <a @click.prevent='backactive' :class='{"active": KeyTxt === "back"}' href='#'>
-              <i class='fas fa-chevron-left mr-1'></i>BACK TO SHOP
+            <a @click.prevent="backactive" :class="{'active': KeyTxt === 'back'}" href="#">
+              <i class="fas fa-chevron-left mr-1"></i>BACK TO SHOP
             </a>
           </li>
         </ul>
       </div>
 
-      <div class='right_side_shop d-md-flex mb-5'>
-        <div class='productsItem mb-5'>
-          <div class='newproduct'>
-            <div class='newproduct_pic'>
+      <div class="right_side_shop d-md-flex mb-5">
+        <div class="productsItem mb-5">
+          <div class="newproduct">
+            <div class="newproduct_pic">
               <div
-                class='newProimg'
-                :style='`background: url(${AllProduct.imageUrl}) center / cover no-repeat;`'
+                class="newProimg"
+                :style="`background: url(${AllProduct.imageUrl}) center / cover no-repeat;`"
               ></div>
               <div
-                class='newstamp p-2'
-                v-if='AllProduct.category == "hotman" || AllProduct.category == "hotproduct"'
+                class="newstamp p-2"
+                v-if="AllProduct.category == 'hotman' || AllProduct.category == 'hotproduct'"
               >
                 <span>HOT</span>
               </div>
             </div>
           </div>
         </div>
-        <div class='product-detail ml-3'>
-          <div class='text-dark'>
-            <div class='txt mt-2'>
+        <div class="product-detail ml-3">
+          <div class="text-dark">
+            <div class="txt mt-2">
               <h2>{{AllProduct.title}}</h2>
             </div>
-            <div class='mt-5 d-flex'>
-              <button class='less' @click='btnChange(-1)'>
-                <i class='fas fa-minus' aria-hidden='true'></i>
+            <div class="mt-5 d-flex">
+              <button class="less" @click="btnChange(-1)">
+                <i class="fas fa-minus" aria-hidden="true"></i>
               </button>
-              <input type='number' max='10' min='1' v-model='AllNum' />
-              <button class='add' @click='btnChange(1)'>
-                <i class='fas fa-plus' aria-hidden='true'></i>
+              <input type="number" max="10" min="1" v-model="AllNum" />
+              <button class="add" @click="btnChange(1)">
+                <i class="fas fa-plus" aria-hidden="true"></i>
               </button>
             </div>
-            <div class='mt-3'>
+            <div class="mt-3">
               <strong>{{ AllNum * AllProduct.price | currency }} TW</strong>
             </div>
             <button
-              class='btn btn-lg btn-size mt-4'
-              type='buttom'
-              @click='addtoCart(AllProduct.id,AllNum)'
+              class="btn btn-lg btn-size mt-4"
+              type="buttom"
+              @click="addtoCart(AllProduct.id,AllNum)"
             >ADD TO CART</button>
           </div>
         </div>
@@ -158,11 +158,11 @@ export default {
 $black: #000;
 
 //去除input預設樣式
-input[type='number'] {
+input[type="number"] {
   appearance: textfield;
 }
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -185,7 +185,7 @@ input[type='number']::-webkit-outer-spin-button {
   top: 100px;
 
   h4 {
-    font-family: 'Anton', sans-serif;
+    font-family: "Anton", sans-serif;
     font-size: 2.5rem;
     padding: 10px;
   }
@@ -193,7 +193,7 @@ input[type='number']::-webkit-outer-spin-button {
     color: $black;
   }
   a {
-    font-family: 'Anton', sans-serif;
+    font-family: "Anton", sans-serif;
     font-size: 2.5rem;
     letter-spacing: 1px;
     color: rgb(153, 153, 153);
@@ -207,7 +207,7 @@ input[type='number']::-webkit-outer-spin-button {
 
 .topSelect-txt {
   h4 {
-    font-family: 'Anton', sans-serif;
+    font-family: "Anton", sans-serif;
     font-size: 1.2rem;
     padding: 10px;
   }
@@ -217,7 +217,7 @@ input[type='number']::-webkit-outer-spin-button {
       color: $black;
     }
     a {
-      font-family: 'Anton', sans-serif;
+      font-family: "Anton", sans-serif;
       font-size: 1.2rem;
       letter-spacing: 1px;
       color: rgb(153, 153, 153);
@@ -250,7 +250,7 @@ input[type='number']::-webkit-outer-spin-button {
 .newproduct {
   p {
     font-size: 21px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
     margin-bottom: 0;
     color: rgba(3, 3, 3, 0.8);
     line-height: 2;
@@ -271,13 +271,13 @@ input[type='number']::-webkit-outer-spin-button {
   background-color: $black;
   span {
     color: white;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
   }
 }
 
 .product-detail {
   h2 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
     font-weight: bold;
     padding-bottom: 7px;
     border-bottom: 2px solid rgba(20, 15, 11, 0.918);

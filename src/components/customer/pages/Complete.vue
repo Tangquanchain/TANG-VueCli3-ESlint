@@ -1,35 +1,34 @@
 <template>
   <div>
-    <div class='mt-5 mb-5'>
-      <div class='container' style='border: 3px solid #1c1e1b;'>
-        <div class='row justify-content-center'>
-          <div class='col-md-6'>
-            <div class='main mt-4 mb-5'>
-              <ul class='list-unstyled breakcrumb'>
-                <li class='breakcrumb-txt'>
-                  <span class='p-5'>
-                    <i style='line-height:0;' class='fa fa-check' aria-hidden='true'></i>
+    <div class="mt-5 mb-5">
+      <div class="container" style="border: 3px solid #1c1e1b;">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="main mt-4 mb-5">
+              <ul class="list-unstyled breakcrumb">
+                <li class="breakcrumb-txt">
+                  <span class="p-5">
+                    <i style="line-height:0;" class="fa fa-check" aria-hidden="true"></i>
                   </span>
                   CART
                 </li>
-                <li class='breakcrumb-txt'>
-                  <span class='p-5'>1</span>
+                <li class="breakcrumb-txt">
+                  <span class="p-5">1</span>
                   INFORMATION
                 </li>
-                <li class='breakcrumb-txt'>
-                  <span class='p-5'>2</span>
+                <li class="breakcrumb-txt">
+                  <span class="p-5">2</span>
                   COMPLETE
                 </li>
               </ul>
             </div>
-            <div class='d-flex justify-content-center'>
-              <div class='d-flex justify-content-center mb-2 mr-1'>
-              </div>
-              <div class='d-flex justify-content-center mb-2'>
+            <div class="d-flex justify-content-center">
+              <div class="d-flex justify-content-center mb-2 mr-1"></div>
+              <div class="d-flex justify-content-center mb-2">
                 <button
-                  @click='backtoproducts'
-                  class='btn-lg btn-size complete-btn-txt'
-                  style='border-radius:20px;'
+                  @click="backtoproducts"
+                  class="btn-lg btn-size complete-btn-txt"
+                  style="border-radius:20px;"
                 >CONTINUE TO SHOPING</button>
               </div>
             </div>
@@ -48,7 +47,7 @@ export default {
       vm.$router.push('/store/AllProduct');
     }
   }
-}
+};
 </script>
 
 <style  lang='scss' scoped>
@@ -63,7 +62,7 @@ $breakcrumb-color: rgba(221, 217, 217, 0.6);
 }
 
 .breakcrumb::before {
-  content: '';
+  content: "";
   display: block;
   position: absolute;
   width: 60%;
@@ -73,7 +72,7 @@ $breakcrumb-color: rgba(221, 217, 217, 0.6);
 }
 
 .breakcrumb-txt {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   background-color: white;
   border: solid 5px $breakcrumb-color;
   display: block;
