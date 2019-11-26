@@ -104,6 +104,8 @@
 </template>
 
 <script>
+import $ from 'jquery';
+
 export default {
   data () {
     return {
@@ -166,6 +168,7 @@ export default {
       this.$http.get(api).then(response => {
         if (response.data.success) {
           vm.$router.push(`/store/shopping_cart/${response.data.product.id}`);
+          $('body,html').animate({ scrollTop: '0px' }, 900);
         }
       });
     }
