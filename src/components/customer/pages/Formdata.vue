@@ -1,6 +1,7 @@
 <template>
   <div>
     <AlertFinishOrder />
+    <AlertOrder />
     <div class="container mt-5 mb-5" style="border: 3px solid #1c1e1b;">
       <loading :active.sync="isLoading"></loading>
       <div class="row justify-content-center">
@@ -32,7 +33,7 @@
                 <th>Price</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-if="order">
               <tr v-for="item in order.products" :key="item.id">
                 <td class="align-middle">{{ item.product.title }}</td>
                 <td class="align-middle">{{ item.qty }}/{{ item.product.unit }}</td>
@@ -42,7 +43,7 @@
             <tfoot>
               <tr>
                 <td colspan="2" class="text-right font-weight-bold">TOTAL</td>
-                <td class="text-right font-weight-bold">{{ order.total }}</td>
+                <td v-if="order.total" class="text-right font-weight-bold">{{ order.total }}</td>
               </tr>
             </tfoot>
           </table>
@@ -100,9 +101,11 @@
 <script>
 import $ from 'jquery';
 import AlertFinishOrder from '../AlertFinishOrder';
+import AlertOrder from '../AlertOrder';
 export default {
   components: {
-    AlertFinishOrder
+    AlertFinishOrder,
+    AlertOrder
   },
   data () {
     return {
@@ -119,8 +122,16 @@ export default {
       vm.isLoading = true;
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/order/${vm.orderId}`;
       this.$http.get(api).then(response => {
-        vm.isLoading = false;
-        vm.order = response.data.order;
+        if (response.data.order) {
+          vm.isLoading = false;
+          vm.order = response.data.order;
+        } else {
+          vm.isLoading = false;
+          vm.$bus.$emit(
+            'order:push',
+            `Wrong Number.`
+          );
+        }
       });
     },
     payOrder () {
@@ -129,7 +140,6 @@ export default {
       const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/pay/${vm.orderId}`;
       this.$http.post(api).then(response => {
         if (response.data.success) {
-          $('AlertFinishOrder').addClass('active');
           vm.isLoading = false;
           vm.$bus.$emit(
             'finish:push',
@@ -154,9 +164,6 @@ export default {
 </script>
 
 <style lang="scss">
-AlertFinishOrder.active {
-  display: block !important;
-}
 
 .breakcrumb::before {
   width: 100% !important;

@@ -25,7 +25,6 @@
         <a
           data-toggle="modal"
           data-target="#orderModal"
-          @click.prevent="addOrder"
           class="nav-link text-dark order-md-1"
           href="#"
         >
@@ -72,7 +71,6 @@
               style="cursor:pointer"
               data-toggle="modal"
               data-target="#orderModal"
-              @click.prevent="addOrder"
             >
               <i
                 class="far fa-edit align-baseline text-white"
@@ -216,8 +214,7 @@ export default {
     return {
       isLoading: false,
       cartProduct: [],
-      number: '', // order number
-      orders: []
+      number: '' // order number
     };
   },
   methods: {
@@ -225,20 +222,6 @@ export default {
       const vm = this;
       vm.$bus.$emit('cartnum:push', vm.cartsLen);
       vm.$bus.$emit('cartfinish:push', vm.carts);
-    },
-
-    addOrder () {
-      const vm = this;
-      const orderList = new Set();
-      for (let i = 1; i <= 10; i++) {
-        const api = `${process.env.VUE_APP_APIPATH}/api/${process.env.VUE_APP_CUSTOMPATH}/orders`;
-        this.$http.get(api).then(response => {
-          response.data.orders.forEach((item, i) => {
-            orderList.add(item.id);
-          });
-        });
-      }
-      vm.orders = orderList;
     },
 
     BtnCoupon () {

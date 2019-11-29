@@ -1,16 +1,13 @@
 <template>
   <div class="coupon-alert">
     <div
-      class="alert alert-dismissible d-flex justify-content-center align-items-center rounded-0"
+      class="alert d-flex justify-content-center align-items-center rounded-0"
       :class="'alert-' + item.status"
       v-for="(item, i) in messages"
       :key="i"
     >
       <div class="alert-outline">
         <strong class="text-center alert-txt cartProduct_txt">{{ item.message}}</strong>
-        <button type="button" class="close" @click="removeMessage(i)" aria-label="Close">
-          <span style="font-size:20px; color:#000;" aria-hidden="true">&times;</span>
-        </button>
       </div>
     </div>
   </div>
@@ -18,7 +15,6 @@
 
 <script>
 export default {
-  name: 'Navbar',
   data () {
     return {
       messages: [],
@@ -35,9 +31,6 @@ export default {
       });
       this.removeMessageWithTiming(timestamp);
     },
-    removeMessage (num) {
-      this.messages.splice(num, 1);
-    },
     removeMessageWithTiming (timestamp) {
       const vm = this;
       setTimeout(() => {
@@ -51,7 +44,6 @@ export default {
   },
   created () {
     const vm = this;
-
     // 自定義名稱 'messsage:push'
     // message: 傳入參數
     // status: 樣式，預設值為 warning
@@ -75,15 +67,13 @@ export default {
 }
 
 .alert-outline {
-  position: fixed;
-  top: 30%;
   padding: 55px;
   background-color: #fff;
   border-radius: 10px;
 }
 
 .alert-txt {
-  font-size: 30px;
+  font-size: 25px;
   font-family: "Anton", sans-serif;
   color: #080808;
 }

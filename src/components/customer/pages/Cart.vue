@@ -100,7 +100,7 @@
                   ></textarea>
                 </div>
                 <div class="text-right" v-if="cartProduct != ''">
-                  <button class="btn btn-continue text-white">CONTINUE</button>
+                  <button @click="goTop" class="btn btn-continue text-white">CONTINUE</button>
                 </div>
               </form>
             </div>
@@ -178,6 +178,7 @@
 
 <script>
 import AlertConpon from '../AlertCoupon';
+import $ from 'jquery';
 export default {
   components: {
     AlertConpon
@@ -261,6 +262,9 @@ export default {
           vm.$bus.$emit('coupon:push', "Can't find Coupon");
         }
       });
+    },
+    goTop () {
+      $('body,html').animate({ scrollTop: '0px' }, 900);
     }
   },
 
